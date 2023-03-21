@@ -74,6 +74,7 @@ def get_query(session, name_publisher=None, id_publisher=None):
         else:
             print("Данного издателя в базе нет")
 
+
 def search_sale_by_publisher(session):
     """принимает имя или идентификатор издателя (publisher), например, через input()."""
 
@@ -92,6 +93,3 @@ def search_sale_by_publisher(session):
         get_query(session, name_publisher)
     else:
         print("Введен некорректный критерий поиска")
-
-
-
