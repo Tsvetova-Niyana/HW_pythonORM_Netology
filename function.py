@@ -1,5 +1,4 @@
 import json
-import numbers
 import os
 
 from models import Publisher, Shop, Book, Stock, Sale, Base
@@ -38,7 +37,6 @@ def get_query(session, name_publisher=None, id_publisher=None):
 
     Напишите Python-скрипт, который:
 
-
     Выводит построчно факты покупки книг этого издателя:
     название книги | название магазина, в котором была куплена эта книга | стоимость покупки | дата покупки
 
@@ -76,7 +74,7 @@ def get_query(session, name_publisher=None, id_publisher=None):
 
 
 def search_sale_by_publisher(session):
-    """принимает имя или идентификатор издателя (publisher), например, через input()."""
+    """Функция принимает имя или идентификатор издателя (publisher), например, через input()."""
 
     search_criteria = int(input("Поиск по коду издателя - 1\n"
                                 "Поиск по названию издателя - 2\n"
