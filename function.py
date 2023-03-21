@@ -3,6 +3,7 @@ import os
 
 from models import Publisher, Shop, Book, Stock, Sale, Base
 
+# Формирование пути до файла
 current = os.getcwd()
 folder = "fixtures"
 file_name = "tests_data.json"
@@ -33,13 +34,11 @@ def create_tables(engine):
 
 def get_query(session, name_publisher=None, id_publisher=None):
     """
-    Запрос выборки магазинов, продающих целевого издателя.
-
-    Напишите Python-скрипт, который:
-
-    Выводит построчно факты покупки книг этого издателя:
+    Функция для построчного вывода фактов покупки книг издателя:
     название книги | название магазина, в котором была куплена эта книга | стоимость покупки | дата покупки
 
+    Функция принимает имя или идентификатор издателя (publisher).
+    Функция формирует запрос поиска, исходя из переданных параметров
     """
 
     if name_publisher:
@@ -74,7 +73,7 @@ def get_query(session, name_publisher=None, id_publisher=None):
 
 
 def search_sale_by_publisher(session):
-    """Функция принимает имя или идентификатор издателя (publisher), например, через input()."""
+    """Функция выборки магазинов, продающих целевого издателя."""
 
     search_criteria = int(input("Поиск по коду издателя - 1\n"
                                 "Поиск по названию издателя - 2\n"
