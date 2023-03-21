@@ -1,4 +1,5 @@
 import json
+import numbers
 import os
 
 from models import Publisher, Shop, Book, Stock, Sale, Base
@@ -31,29 +32,66 @@ def create_tables(engine):
     Base.metadata.create_all(engine)
 
 
-def get_query(session, name_publisher):
+def get_query(session, name_publisher=None, id_publisher=None):
     """
     Запрос выборки магазинов, продающих целевого издателя.
 
     Напишите Python-скрипт, который:
 
-    подключается к БД любого типа на ваш выбор, например, к PostgreSQL;
-    импортирует необходимые модели данных;
-    принимает имя или идентификатор издателя (publisher), например, через input().
+
     Выводит построчно факты покупки книг этого издателя:
     название книги | название магазина, в котором была куплена эта книга | стоимость покупки | дата покупки
 
     """
-    check_publisher = session.query(Publisher).filter(Publisher.name == name_publisher).all()
-    query = session.query(Book.title, Shop.name, Sale.date_sale, Sale.count * Sale.price). \
-        join(Book.publisher).join(Stock).join(Shop).join(Sale).filter(Publisher.name == name_publisher).all()
-    if check_publisher:
-        if query:
-            for publisher in query:
-                print(publisher.title, "|", publisher.name, "|", publisher.date_sale, "|", publisher[3])
-        else:
-            print("Данный издатель книги в магазинах не продавал")
 
+    if name_publisher:
+
+        check_publisher = session.query(Publisher).filter(Publisher.name == name_publisher).all()
+        query = session.query(Book.title, Shop.name, Sale.date_sale, Sale.count * Sale.price). \
+            join(Book.publisher).join(Stock).join(Shop).join(Sale).filter(Publisher.name == name_publisher).all()
+        if check_publisher:
+            if query:
+                for publisher in query:
+                    print(publisher.title, "|", publisher.name, "|", publisher.date_sale, "|", publisher[3])
+            else:
+                print("Данный издатель книги в магазинах не продавал")
+
+        else:
+            print("Данного издателя в базе нет")
+
+    if id_publisher:
+
+        check_publisher = session.query(Publisher).filter(Publisher.id == id_publisher).all()
+        query = session.query(Book.title, Shop.name, Sale.date_sale, Sale.count * Sale.price). \
+            join(Book.publisher).join(Stock).join(Shop).join(Sale).filter(Publisher.id == id_publisher).all()
+        if check_publisher:
+            if query:
+                for publisher in query:
+                    print(publisher.title, "|", publisher.name, "|", publisher.date_sale, "|", publisher[3])
+            else:
+                print("Данный издатель книги в магазинах не продавал")
+
+        else:
+            print("Данного издателя в базе нет")
+
+def search_sale_by_publisher(session):
+    """принимает имя или идентификатор издателя (publisher), например, через input()."""
+
+    search_criteria = int(input("Поиск по коду издателя - 1\n"
+                                "Поиск по названию издателя - 2\n"
+                                "Введите критерий поиска: "))
+    if search_criteria == 1:
+        print()
+        id_publisher = int(input("Введите код автора: "))
+        print()
+        get_query(session, None, id_publisher)
+    elif search_criteria == 2:
+        print()
+        name_publisher = input("Введите имя автора: ")
+        print()
+        get_query(session, name_publisher)
     else:
-        print("Данного издателя в базе нет")
+        print("Введен некорректный критерий поиска")
+
+
 

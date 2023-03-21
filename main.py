@@ -1,6 +1,6 @@
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
-from function import load_db, create_tables, get_query
+from function import load_db, create_tables, search_sale_by_publisher
 from connect_db import DSN_connect
 
 if __name__ == '__main__':
@@ -15,10 +15,7 @@ if __name__ == '__main__':
     session.commit()
 
     print("Поиск продаж книг издателя в магазинах: ")
-    print()
-    name_publisher = input("Введите имя автора: ")
-    print()
 
-    get_query(session, name_publisher)
+    search_sale_by_publisher(session)
 
     session.close()
